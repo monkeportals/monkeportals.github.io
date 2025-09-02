@@ -1,1 +1,250 @@
-<h1>my site goes here</h1>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐵 MONKE PORTALS 🌀 | VR Multiplayer Madness</title>
+    <meta name="description" content="Reject humanity. Master momentum. MONKE PORTALS is the ultimate physics-based VR multiplayer game, combining raw, skill-based locomotion with mind-bending portal chaos.">
+    <meta name="keywords" content="MONKEPORTALS, vr game, virtual reality, monkey game, physics game, portals, multiplayer, gorilla tag, monke, swing, leap, rocket, trent sterling">
+    <meta name="author" content="Trent Sterling">
+
+    <!-- FONT IMPORTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://tront.xyz/img/tront_small.jpg" type="image/jpeg">
+
+    <style>
+        :root {
+            --color-bg: #0d0f14;
+            --color-bg-deep-purple: #100514;
+            --color-text: #E0E0E0;
+            --font-heading: 'VT323', monospace;
+            --font-body: 'Share Tech Mono', monospace;
+            --monke-orange: #FF8C32;
+            --portal-blue: #00ffff;
+            --madness-magenta: #ff00ff;
+            --monke-orange-rgb: 255, 140, 50;
+            --portal-blue-rgb: 0, 255, 255;
+        }
+
+        /* --- BASE & FONT-LOAD FIX --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            text-align: center;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, var(--color-bg-deep-purple) 0%, var(--color-bg) 100%);
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.4s ease-in-out;
+        }
+        body.fonts-loaded { opacity: 1; visibility: visible; }
+
+        /* --- PARTICLE ANIMATIONS --- */
+        #particle-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+        }
+        @keyframes fall {
+            from { transform: translateY(-10vh) rotate(-60deg); }
+            to { transform: translateY(110vh) rotate(60deg); }
+        }
+        @keyframes spin-once { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .particle { position: absolute; font-size: 2rem; opacity: 0.5; animation: fall linear infinite; }
+        .particle:nth-child(1){left:5%;animation-duration:10s;animation-delay:-3s;font-size:2.5rem}.particle:nth-child(2){left:15%;animation-duration:12s;animation-delay:-1s}.particle:nth-child(3){left:25%;animation-duration:8s;animation-delay:-5s;font-size:1.8rem}.particle:nth-child(4){left:35%;animation-duration:15s;animation-delay:-7s}.particle:nth-child(5){left:45%;animation-duration:9s;animation-delay:-2s;font-size:2.2rem}.particle:nth-child(6){left:55%;animation-duration:11s;animation-delay:-8s}.particle:nth-child(7){left:65%;animation-duration:7s;animation-delay:-4s;font-size:1.9rem}.particle:nth-child(8){left:75%;animation-duration:14s;animation-delay:-6s}.particle:nth-child(9){left:85%;animation-duration:10s;animation-delay:0s;font-size:2.3rem}.particle:nth-child(10){left:95%;animation-duration:13s;animation-delay:-9s}
+
+        /* --- NAVBAR (Fixed with row-reverse hack) --- */
+        #magic-navbar-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 50px; z-index: 999;
+            display: flex; 
+            flex-direction: row-reverse; /* The critical CSS Hack for the hover effect */
+            justify-content: center; align-items: center; gap: 0.8rem;
+            background-color: rgba(5, 5, 10, 0.7);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(var(--portal-blue-rgb), 0.5);
+        }
+        .nav-link { display: flex; align-items: center; height: 34px; padding: 0 1rem; color: #8e8e9c; text-decoration: none; font-size: 1.1rem; border-radius: 4px; border: 1px solid transparent; transition: all 0.2s ease-in-out; }
+        .nav-link:hover { color: var(--portal-blue); background-color: rgba(var(--portal-blue-rgb), 0.1); }
+        .nav-link.active { color: var(--color-bg); font-weight: bold; background: var(--monke-orange); box-shadow: 0 0 15px rgba(var(--monke-orange-rgb), 0.6); }
+        .logo-image { height: 28px; border-radius: 50%; margin-right: 0.6rem; transition: transform .8s cubic-bezier(.16,1,.3,1); }
+        .nav-link:hover ~ .home-link .logo-image, .home-link:hover .logo-image { animation: spin-once 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        /* --- HERO HEADER --- */
+        .hero-header { padding: 120px 20px 80px 20px; background: radial-gradient(ellipse at 50% 50%, rgba(var(--monke-orange-rgb), 0.15), transparent 70%); }
+        .hero-title { font-family: var(--font-heading); font-size: clamp(4rem, 12vw, 7rem); color: var(--monke-orange); text-shadow: 0 0 8px #fff, 0 0 20px var(--monke-orange), 0 0 45px var(--madness-magenta); margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 1.5rem; }
+        .emoji-icon { font-size: 0.8em; filter: drop-shadow(0 0 15px var(--portal-blue)); }
+        .hero-subtitle { font-size: 1.3rem; max-width: 60ch; margin: 0 auto 2.5rem auto; line-height: 1.7; }
+        .cta-button { display: inline-block; padding: 10px 28px; font-family: var(--font-heading); font-size: 2.2rem; color: var(--color-bg); background: linear-gradient(45deg, var(--monke-orange), var(--madness-magenta)); border-radius: 5px; text-decoration: none; box-shadow: 0 0 20px rgba(var(--monke-orange-rgb), 0.6), 0 0 30px rgba(var(--madness-magenta), 0.5); transition: all 0.2s ease-out; }
+        .cta-button:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(var(--monke-orange-rgb), 0.8), 0 0 50px rgba(var(--madness-magenta), 0.7); }
+
+        /* --- CONTENT WRAPPERS & SECTIONS --- */
+        .content-container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .section-header { font-family: var(--font-heading); font-size: 3.5rem; margin-top: 4rem; margin-bottom: 2rem; color: var(--portal-blue); text-shadow: 0 0 10px var(--portal-blue); }
+        .section-description { max-width: 80ch; margin: -1rem auto 2.5rem auto; color: #b0b0b0; font-size: 1.1rem; line-height: 1.8; text-align: left; }
+        .section-description strong { color: var(--monke-orange); font-family: var(--font-heading); font-size: 1.5em; display: block; margin-bottom: 0.5rem; letter-spacing: 1px; }
+
+        /* Video Section */
+        .video-grid-container { 
+            width: 100vw; 
+            position: relative; 
+            left: 50%; 
+            right: 50%; 
+            margin-left: -50vw; 
+            margin-right: -50vw; 
+            padding: 3.5rem 1rem; 
+            border-top: 2px dashed var(--monke-orange); 
+            border-bottom: 2px dashed var(--portal-blue); 
+            background-color: #05050a; 
+        }
+        .video-grid { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 2rem; 
+            max-width: 1800px; 
+            margin: 0 auto; 
+        }
+        .video-container { 
+            background-color: #000; 
+            padding: 1rem; 
+            border: 1px solid #222; 
+            box-shadow: 0 0 25px rgba(var(--portal-blue-rgb), 0.2), inset 0 0 15px rgba(0,0,0,0.5); 
+            width: 100%; 
+            border-radius: 12px; 
+            flex: 1 1 45%; 
+            min-width: 320px; 
+            max-width: 800px;
+        }
+        .video-container video { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 4px; 
+            display: block; 
+        }
+        
+        /* Features List */
+        .features-list { list-style: none; padding: 0; max-width: 1000px; margin: 2rem auto; }
+        .features-list li { margin: 1.5rem 0; padding: 2rem; font-size: 1.1rem; text-align: left; background-color: rgba(var(--portal-blue-rgb), 0.05); border: 1px dashed var(--portal-blue); border-left: 5px solid var(--monke-orange); border-radius: 8px; transition: all 0.2s ease-out; }
+        .features-list li:hover { transform: translateY(-5px); background-color: rgba(var(--portal-blue-rgb), 0.1); }
+        .features-list li strong { display: block; font-family: var(--font-heading); color: var(--monke-orange); font-size: 2em; margin-bottom: 0.75rem; letter-spacing: 1px;}
+        
+        /* Image Slide */
+        .slide-image-container { margin: 4rem auto; border: 3px dashed var(--portal-blue); padding: 10px; background: rgba(var(--portal-blue-rgb), 0.05); transform: rotate(-0.5deg); max-width: 1000px; }
+        .slide-image { display: block; width: 100%; height: auto; transform: rotate(0.2deg); }
+        
+        /* --- PRIVACY & FOOTER --- */
+        .privacy-policy { padding: 2.5rem; background-color: rgba(0,0,0,0.4); max-width: 800px; margin: 4rem auto 2rem auto; text-align: left; font-size: 0.9rem; color: #8e8e9c; border: 1px dotted #8e8e9c; border-radius: 8px; }
+        .privacy-policy h3 { color: var(--portal-blue); margin: 1.5rem 0 0.5rem 0; font-family: var(--font-heading); font-size: 1.8rem; }
+        .privacy-policy a { color: var(--monke-orange); }
+        .privacy-policy a:hover { color: var(--portal-blue); text-decoration: underline; }
+        footer { padding: 2.5rem 1rem; border-top: 1px solid var(--monke-orange); margin-top: 4rem; color: #8e8e9c; font-size: 1rem; }
+        footer a { color: var(--monke-orange); text-decoration: none; font-weight: bold; }
+        footer a:hover { color: var(--portal-blue); text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div id="particle-container">
+        <div class="particle">🐵</div><div class="particle">🌀</div><div class="particle">🐵</div><div class="particle">🌀</div><div class="particle">🐵</div><div class="particle">🌀</div><div class="particle">🐵</div><div class="particle">🌀</div><div class="particle">🐵</div><div class="particle">🌀</div>
+    </div>
+
+    <nav id="magic-navbar-container">
+        <!-- Elements are in REVERSE order for the CSS hover hack -->
+        <a href="https://tront.xyz/discord/" class="nav-link" target="_blank">Discord</a>
+        <a href="https://blog.tront.xyz/" class="nav-link" target="_blank">Blog</a>
+        <a href="https://tront.xyz/grid/" class="nav-link" target="_blank">Grid</a>
+        <a href="#" class="nav-link active">MonkePortals</a>
+        <a href="https://tront.xyz/" class="nav-link home-link" target="_blank">
+            <img src="https://tront.xyz/img/tront_small.jpg" alt="Tront Logo" class="logo-image">
+            <span>Home</span>
+        </a>
+    </nav>
+    
+    <header class="hero-header">
+        <h1 class="hero-title"><span class="emoji-icon">🐵</span>MONKE PORTALS<span class="emoji-icon">🌀</span></h1>
+        <p class="hero-subtitle">Reject humanity and master momentum. Gorilla Tag meets Portal in a chaotic multiplayer sandbox. Use nothing but your bare hands and brain-bending portals to become the ultimate primate.</p>
+        <a href="#features" class="cta-button">Unleash your Inner MONKE!</a>
+    </header>
+    
+    <main>
+        <div class="content-container">
+            <section id="about">
+                <h2 class="section-header">// About the Game //</h2>
+                <p class="section-description">Welcome to MONKE PORTALS, a thrilling new VR game that throws you into the role of a hyper-intelligent primate test subject armed with revolutionary portal-generating gloves. Drawing inspiration from the fast-paced locomotion of Gorilla Tag and the mind-bending puzzles of the Portal series, MonkePortals offers a one-of-a-kind, physically-driven traversal experience where every leap, climb, and launch is governed by the unfiltered laws of motion and momentum.</p>
+            </section>
+        </div>
+
+        <div class="video-grid-container">
+            <h2 class="section-header">// Gameplay Feed //</h2>
+            <div class="video-grid">
+                <div class="video-container"><video controls muted loop preload="metadata"><source src="https://monke.tront.xyz/video1.mp4" type="video/mp4">Your browser does not support the video tag.</video></div>
+                <div class="video-container"><video controls muted loop preload="metadata"><source src="https://monke.tront.xyz/video2.mp4" type="video/mp4">Your browser does not support the video tag.</video></div>
+            </div>
+        </div>
+
+        <div class="content-container">
+            <section id="features">
+                <h2 class="section-header">// Key Features //</h2>
+                <ul class="features-list">
+                    <li><strong>Primate Agility & True Physical Locomotion</strong> Experience the unparalleled freedom of arm-based locomotion. Run on all fours, leap across vast distances, and climb any structure. There are no joysticks or fake movement—just raw, expressive traversal. Your hands are your engines.</li>
+                    <li><strong>Warp the World with Physics-Based Portals</strong> Wield the power of portal gloves that obey the laws of physics. They don’t just teleport you; they preserve your motion, turning downward velocity into lateral propulsion and opening the door to impossible, mind-bending maneuvers.</li>
+                    <li><strong>Multiplayer Mayhem</strong> Grab your fellow MONKEs for chaotic games of tag, infection, and custom modes where mastery of portals determines survival. Race friends, battle ghosts, or yeet each other into infinite loops with netcode that just works. This is social VR at its most primal.</li>
+                    <li><strong>Test Chamber Trials & Insane Arenas</strong> Progress through a series of challenging levels set within a sprawling, high-tech laboratory. These aren't just maps; they're physics-based sandboxes designed to be broken, testing every aspect of your portal proficiency.</li>
+                     <li><strong>Hilarious Customization</strong> Stand out from the pack! Unlock and equip a huge library of hilarious and bizarre cosmetics to make your MONKE stand out. Be a wizard, a robot, or a MONKE with a traffic cone.</li>
+                     <li><strong>Built for Speedrunners & Masochists</strong> A high-skill ceiling and a movement lab for people who crave precision and flow-state. This is a sweaty, demanding, and deeply rewarding traversal engine disguised as a game.</li>
+                </ul>
+            </section>
+        
+             <section id="tech-breakdown">
+                <h2 class="section-header">// Tech Breakdown //</h2>
+                <div class="section-description">
+                    <p><strong>The Movement System: Built to Be Broken</strong>You are a monke. You have powerful arms. You move by physically interacting with the world—climbing, swinging, and pushing off surfaces. There are no joysticks. No teleport gimmicks. The systems are tuned for maximum expressiveness and minimum latency, giving you a true 1:1 connection between body and game.</p>
+                    <br>
+                    <p><strong>VR Performance, Tuned by a Madman</strong>Let’s talk tech. This game is ruthlessly optimized to squeeze every frame out of your headset (120Hz on Quest is the baseline goal). Aggressive culling, clever shaders, and a low-overhead portal rendering pipeline work in concert to deliver a fast, smooth, and physically dense world that feels light but is packed with chaotic potential.</p>
+                 </div>
+            </section>
+
+            <div class="slide-image-container">
+                <img src="https://monke.tront.xyz/monke_slide.jpg" alt="A promotional slide showing a MONKE sliding through a tube" class="slide-image">
+            </div>
+        
+            <section class="privacy-policy">
+                <h3 style="text-align:center;">// MONKE PORTALS Privacy Policy //</h3>
+                <p>Thank you for using MONKE PORTALS, developed by Tront. We understand that your privacy is important, and we are committed to protecting it. This privacy policy explains what, if any, data we collect and how we use it.</p>
+                <h3>Data Collection and Use</h3>
+                <p>MONKE PORTALS does not collect any personal data from our game application on any platform. We do not collect analytics or any personal information, and we do not use any collected data for marketing purposes.</p>
+                <h3>Security</h3>
+                <p>The security of your personal data is of the utmost importance to us. As MONKE PORTALS does not collect personal data, there is none to be leaked.</p>
+                <h3>Cookies & External Links</h3>
+                <p>This website may use cookies for basic functionality. Our website may contain links to other websites, and we are not responsible for the privacy practices of these other sites. We recommend you read the privacy policies of each website you visit.</p>
+                <h3>Changes to Our Privacy Policy</h3>
+                <p>We review and update our privacy policy regularly. This policy was last updated on July 30, 2025. For questions or concerns, please contact us at: <a href="mailto:trentsterling@gmail.com">trentsterling@gmail.com</a>.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="current-year">2025</span> Trent Sterling (Tront). All rights reserved.</p>
+        <p>Explore more projects at <a href="https://tront.xyz" target="_blank">tront.xyz</a> or join the <a href="https://tront.xyz/discord/" target="_blank">Developer Discord</a>.</p>
+    </footer>
+
+    <script>
+      (function() {
+          // --- FOUC (Flash of Unstyled Content) Fix ---
+          document.fonts.ready.then(() => { 
+              document.body.classList.add('fonts-loaded'); 
+          });
+          
+          // --- Update Copyright Year ---
+          const yearSpan = document.getElementById('current-year');
+          if(yearSpan) { 
+              yearSpan.textContent = new Date().getFullYear(); 
+          }
+      })();
+    </script>
+</body>
+</html>
